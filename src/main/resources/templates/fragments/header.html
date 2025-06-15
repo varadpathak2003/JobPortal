@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header">
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <style th:inline="css">
+        :root {
+            --primary: #B7225A;
+            --secondary: #CC6C78;
+            --background: #E0E2D7;
+            --text-dark: #2A2A2D;
+            --text-light: #FFFFFF;
+        }
+        
+        [data-theme="dark"] {
+            --primary: #D14D7A;
+            --secondary: #B7225A;
+            --background: #1A1A1A;
+            --text-dark: #F0F0F0;
+        }
+        
+        /* Rest of your CSS styles... */
+    </style>
+</head>
+<body>
+    <!-- Header Fragment -->
+    <header class="master-header" th:fragment="header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/jobs}">Job Portal</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/jobs}">Jobs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/contact}">Contact</a>
+                        </li>
+                    </ul>
+                    <div class="d-flex align-items-center gap-3 utility-buttons">
+                        <th:block>
+                            <a th:href="@{/applications}" class="my-appts-button">My Applications</a>
+                        </th:block>
+                        
+                        <button class="theme-switcher" onclick="toggleTheme()">
+                            <i class="bi bi-circle-half"></i>
+                        </button>
+                        
+                       <!--  <th:block th:if="${#authentication.isAuthenticated()}">
+                            <div class="auth-button">
+                                <i class="bi bi-person-circle"></i>
+                                <span th:text="${#authentication.principal.username}">User</span>
+                                <form th:action="@{/logout}" method="post" style="display: inline;">
+                                    <button type="submit" style="background: none; border: none; color: white; margin-left: 10px;">Logout</button>
+                                </form>
+                            </div>
+                        </th:block> -->
+                        
+                       <!--  <th:block th:unless="${#authentication.isAuthenticated()}"> -->
+                       <th:block>
+                            <a th:href="@{/login}" class="auth-button">Login <i class="bi bi-box-arrow-in-right"></i></a>
+                            <a th:href="@{/register}" class="auth-button">Register <i class="bi bi-person-plus"></i></a>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Theme Toggle JavaScript -->
+    <script th:inline="javascript">
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // Check for saved theme preference
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>

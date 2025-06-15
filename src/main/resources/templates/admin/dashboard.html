@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        /* Custom styles */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            background: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            transition: all 0.3s;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-280px);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+        
+        .card-metric {
+            transition: transform 0.2s;
+        }
+        
+        .card-metric:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{admin/adminheader :: adminheader}"></div>
+    
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div th:replace="~{fragments/adminSidebar :: adminSidebar}"></div>
+        </div>
+        
+        <!-- Main Content -->
+        <main class="main-content flex-grow-1">
+            <h2 class="mb-4 fw-bold">Dashboard Overview</h2>
+            
+            <div class="row g-4 mb-4">
+                <!-- Users Card -->
+                <div class="col-md-6 col-xl-3">
+                    <div class="card card-metric border-0 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-muted mb-3">Total Users</h5>
+                            <div class="display-5 fw-bold mb-2 text-primary" th:text="${totalUsers}">0</div>
+                            <div class="text-success small fw-bold">
+                                <i class="bi bi-arrow-up"></i> 12% from last month
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Jobs Card -->
+                <div class="col-md-6 col-xl-3">
+                    <div class="card card-metric border-0 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-muted mb-3">Total Jobs</h5>
+                            <div class="display-5 fw-bold mb-2 text-primary" th:text="${totalJobs}">0</div>
+                            <div class="d-flex justify-content-around small">
+                                <span class="text-success">
+                                    <i class="bi bi-check-circle"></i> <span th:text="${activeJobs}">0</span> Active
+                                </span>
+                                <span class="text-danger">
+                                    <i class="bi bi-x-circle"></i> <span th:text="${expiredJobs}">0</span> Expired
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Applications Card -->
+                <div class="col-md-6 col-xl-3">
+                    <div class="card card-metric border-0 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-muted mb-3">Total Applications</h5>
+                            <div class="display-5 fw-bold mb-2 text-primary" th:text="${totalApps}">0</div>
+                            <div class="d-flex flex-column small gap-1">
+                                <span><i class="bi bi-hourglass text-warning"></i> <span th:text="${pendingApps}">0</span> Pending</span>
+                                <span><i class="bi bi-check2 text-success"></i> <span th:text="${acceptedApps}">0</span> Accepted</span>
+                                <span><i class="bi bi-x text-danger"></i> <span th:text="${rejectedApps}">0</span> Rejected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions Card -->
+                <div class="col-md-6 col-xl-3">
+                    <div class="card card-metric border-0 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-muted mb-3">Quick Actions</h5>
+                            <div class="d-grid gap-2">
+                                <a href="/admin/users" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-people"></i> Manage Users
+                                </a>
+                                <a href="/admin/jobs" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-briefcase"></i> Manage Jobs
+                                </a>
+                                <a href="/admin/applications" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-file-earmark-text"></i> View Applications
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Activity Section -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-4">Recent Activity</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>User</th>
+                                    <th>Activity</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Sample data - replace with Thymeleaf iteration -->
+                                <tr>
+                                    <td>2023-07-15</td>
+                                    <td>john.doe@example.com</td>
+                                    <td>Applied for Senior Developer</td>
+                                    <td><span class="badge bg-warning">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2023-07-14</td>
+                                    <td>acme.corp</td>
+                                    <td>Posted new job</td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Mobile sidebar toggle script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.querySelector('.sidebar');
+            // You can add a toggle button in your header to control this
+            // Example: document.getElementById('sidebarToggle').addEventListener('click', () => {
+            //     sidebar.classList.toggle('active');
+            // });
+        });
+    </script>
+</body>
+</html>
