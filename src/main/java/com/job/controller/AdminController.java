@@ -1,5 +1,6 @@
 package com.job.controller;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -12,9 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.job.entity.Job;
+import com.job.entity.JobApplication;
+import com.job.entity.User;
 import com.job.service.JobApplicationService;
 import com.job.service.JobService;
 import com.job.service.UserService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("admin")
@@ -111,6 +116,33 @@ public class AdminController {
 	        return "admin/dashboard";
 	
 	}
+	    @GetMapping("applications")
+	    public String viewAllApplications(Model model) {
+	    	List <JobApplication > applications=applicationService.findAll();
+	    	model.addAttribute("applications",applications);
+	    	return "admin/viewAllApplications";
+	    }
+	  
+	    @GetMapping("applications/{id}")
+	    public String viewApplication(@PathVariable Integer id, Model model, 
+	                                 HttpSession session, RedirectAttributes redirectAttributes) {
+	        
+	        // Check admin authentication
+//	        if (session.getAttribute("adminId") == null) {
+//	            redirectAttributes.addFlashAttribute("error", "Please login as admin");
+//	            return "redirect:/admin/login";
+//	        }
+	        
+	        JobApplication application = applicationService.findById(id).get();
+	        User user=userService.findByJobApplicationId(id).get();
+	        Job job=application.getJob();
+	        System.out.println(";;;;;;;;;;;;;;"+application.getResumeFilename());
+	        model.addAttribute("application", application);
+	        model.addAttribute("user",user);
+	        
+	        model.addAttribute("job",job);
+	        return "admin/viewApplications";
 	
-
+	    }
+	    
 }

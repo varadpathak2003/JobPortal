@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.job.entity.JobApplication;
 import com.job.entity.User;
 import com.job.repository.UserRepository;
 import com.job.service.UserService;
@@ -32,6 +33,10 @@ public class UserServiceImpl implements UserService {
 	public long countAllUsers() {
 		
 		return userRepository.count();
+	}
+	@Override
+	public Optional<User> findByJobApplicationId(Integer id) {
+		return userRepository.findByApplicationsId(id);
 	}
 
 }

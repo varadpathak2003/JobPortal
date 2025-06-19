@@ -162,5 +162,34 @@ public class UserController {
 		model.addAttribute("applications", applications);
 		return "user/viewApplications";
 	}
+	
+	@SuppressWarnings("unused")
+	@GetMapping("dashboard")
+	public String showDashboard(Model model,HttpSession session) {
+		Long userId = ((Number) session.getAttribute("userId")).longValue();
+	    if (userId == null) return "redirect:user/login";
+	    User user=userService.findById(userId).get();
+	    model.addAttribute("user", user);
+	    
+	    // Application stats
+	    model.addAttribute("pendingApps", applicationService.countByUserAndStatus(user, Status.PENDING));
+	    model.addAttribute("acceptedApps", applicationService.countByUserAndStatus(user, Status.ACCEPTED));
+	    model.addAttribute("rejectedApps", applicationService.countByUserAndStatus(user, Status.REJECTED));
+	    
+	    // Recent applications
+	    //model.addAttribute("recentApplications", applicationService.findRecentApplicationsByUser(user, 5));
+	    
+	    // Recommended jobs
+	   // model.addAttribute("recommendedJobs", jobService.getRecommendedJobs(user, 4));
+	    
+	    // Profile completion
+	    //model.addAttribute("profileCompletion", userService.calculateProfileCompletion(currentUser));
+	    
+	    // Additional attributes
+	  //  model.addAttribute("unreadNotifications", notificationService.getUnreadCount(currentUser));
+	   //s model.addAttribute("savedJobsCount", savedJobService.countByUser(currentUser));
+	    
+	    return "user/dashboard";
+	}
 
 }

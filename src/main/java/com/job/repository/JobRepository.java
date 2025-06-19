@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.job.entity.Job;
+import com.job.entity.User;
+import com.job.entity.JobApplication.Status;
 
 public interface JobRepository  extends JpaRepository<Job, Long>{
 	

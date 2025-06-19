@@ -1,4 +1,4 @@
-package com.job.service.repository;
+package com.job.repository;
 
 import java.util.Optional;
 
@@ -17,5 +17,7 @@ public interface JobApplicationRepository extends JpaRepository<JobApplication, 
 	Optional <JobApplication> findByUserAndJob(User user,Job job);
 
 	Long countByStatus(Status pending);
+
+	int countByUserAndStatus(User user, Status status);
 
 }

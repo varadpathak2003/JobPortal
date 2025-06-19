@@ -13,8 +13,10 @@ import com.job.entity.JobApplication;
 import com.job.entity.JobApplication.Status;
 import com.job.entity.User;
 import com.job.repository.JobRepository;
+import com.job.repository.UserRepository;
 import com.job.service.JobApplicationService;
-import com.job.service.repository.JobApplicationRepository;
+import com.job.service.UserService;
+import com.job.repository.JobApplicationRepository;
 
 @Component
 public class JobApplicationServiceImpl implements JobApplicationService {
@@ -51,6 +53,17 @@ public class JobApplicationServiceImpl implements JobApplicationService {
 	    stats.put("rejected", applicationRepository.countByStatus(Status.REJECTED));
 	    
 	    return stats;
+	}
+
+	@Override
+	public int countByUserAndStatus(User user, Status status) {
+		return applicationRepository.countByUserAndStatus(user,status);
+	}
+
+	@Override
+	public Optional <JobApplication> findById(Integer id) {
+		
+		return applicationRepository.findById(id);
 	}
 
 }
